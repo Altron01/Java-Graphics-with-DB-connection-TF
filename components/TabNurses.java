@@ -9,20 +9,19 @@ import apis.DBConnection;
 import java.awt.BorderLayout;
 import javafx.util.Pair;
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
-/**
- *
- * @author altron01
- */
-public class TabPanel extends JPanel {
+
+
+public class TabNurses extends JPanel {
     
     DBConnection con;
     
-    public TabPanel(){
+    public TabNurses() {
+        
+        
         
         con = DBConnection.getInstance();
         
@@ -32,22 +31,25 @@ public class TabPanel extends JPanel {
         JPanel pnlOptionsPanel = new JPanel();
         pnlOptionsPanel.setLayout(new BoxLayout(pnlOptionsPanel, BoxLayout.Y_AXIS));
         
-        pnlOptionsPanel.add(new ComboBoxOption("Especialty: ", con.getDocteurEspetialty()));
+        pnlOptionsPanel.add(new ComboBoxOption("Code: ", con.getNurseCode()));
+        pnlOptionsPanel.add(new ComboBoxOption("Rotation: ", con.getNurseRotation()));
+        
         pnlOptionsPanel.add(new TextOption("Name: "));
         pnlOptionsPanel.add(new TextOption("SurName: "));
         
+        
+        pnlMainPanel.add(pnlOptionsPanel, "West");
         pnlMainPanel.add(pnlOptionsPanel, "West");
         
+        Pair<Object[][], String[]> val = con.selectNurse();
         
-        Pair<Object[][], String[]> val = con.selectDocteur();
         JTable tblModel = new JTable(val.getKey(), val.getValue());
         tblModel.setFillsViewportHeight(true);
-        JScrollPane jspData = new JScrollPane(tblModel);
         
+        JScrollPane jspData = new JScrollPane(tblModel);
         pnlMainPanel.add(jspData, "East");
         
         this.add(pnlMainPanel, "North");
-        
-        //ReportPanel pnlReport = new ReportPanel("Caldas");
     }
+    
 }

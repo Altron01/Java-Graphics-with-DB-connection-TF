@@ -23,7 +23,7 @@ public class MainPanel extends JPanel{
         TabPanel pnlDoctors = new TabPanel();
         tbPanel.addTab("Doctors", pnlDoctors);
         
-        JPanel pnlNurses = new JPanel();
+        JPanel pnlNurses = new TabNurses();
         tbPanel.addTab("Nurses", pnlNurses);
         
         JPanel pnlPatients = new JPanel();
