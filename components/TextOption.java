@@ -17,13 +17,19 @@ import javax.swing.JTextField;
  */
 public class TextOption extends JPanel {
     
+    JTextField cb;
+    
     public TextOption(String title){
         this.setLayout(new FlowLayout());
         JLabel txt =new JLabel();
         txt.setText(title);
         this.add(txt);
-        JTextField cb = new JTextField();
+        cb = new JTextField();
         cb.setColumns(10);
         this.add(cb);
+    }
+    
+    public String getText(){
+        return cb.getText();
     }
 }

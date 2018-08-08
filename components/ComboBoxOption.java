@@ -16,13 +16,19 @@ import javax.swing.JPanel;
  */
 public class ComboBoxOption extends JPanel{
     
+    JComboBox cb;
+    
     public ComboBoxOption(String title, String[] data){
         this.setLayout(new FlowLayout());
         JLabel txt =new JLabel();
         txt.setText(title);
         this.add(txt);
-        JComboBox cb = new JComboBox(data);
+        cb = new JComboBox(data);
         this.add(cb);
+    }
+    
+    public String getText(){
+        return (String)cb.getSelectedItem();
     }
     
 }
