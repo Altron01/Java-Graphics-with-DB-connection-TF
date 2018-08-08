@@ -59,10 +59,14 @@ public class DBConnection {
         return instance;
     }
     
-    public Pair<Object[][], String[]> selectDocteur(){
+    public Pair<Object[][], String[]> selectDoctor(String specialty, String name, String surname, String address, String phone){
         try {
-            String query = "SELECT * FROM docteur a JOIN employe b ON a.numero = b.numero";
-            
+            String query = "SELECT * FROM docteur a JOIN employe b ON a.numero "
+                    +"= b.numero WHERE specialite=" + (specialty.length() > 0 ? specialty : "\"%\"")
+                    +" AND nom=" + (name.length() > 0 ? name : "\"%\"")
+                    +" AND prenom=" + (surname.length() > 0 ? surname : "\"%\"")
+                    +" AND adresse=" + (address.length() > 0 ? address : "\"%\"")
+                    +" AND tel=" + (phone.length() > 0 ? phone : "\"%\"");
             ResultSet rs = stmt.executeQuery(query);
             System.out.println(query);
             
@@ -349,7 +353,7 @@ public class DBConnection {
     
     
     
-    public String[] getDocteurEspetialty(){
+    public String[] getDoctorSpecialty(){
         try {
             String query = "SELECT DISTINCT specialite FROM docteur";
             
@@ -367,11 +371,18 @@ public class DBConnection {
             return null;
         }
     }
+<<<<<<< HEAD
 
     public String[] getNurseCode() {
         
         try {
             String query = "SELECT DISTINCT code_service FROM infirmier";
+=======
+    
+    public String[] getServiceNom(){
+        try {
+            String query = "SELECT DISTINCT nom FROM service";
+>>>>>>> 868e9d6ad8c989a49a76b54b2167eb2a00af0843
             
             ResultSet rs = stmt.executeQuery(query);
             
@@ -379,7 +390,11 @@ public class DBConnection {
             String[] resul = new String[rs.getRow()];
             rs.beforeFirst();
             while (rs.next()) {
+<<<<<<< HEAD
                 resul[rs.getRow()-1] = rs.getString("code_service");
+=======
+                resul[rs.getRow()-1] = rs.getString("nom");
+>>>>>>> 868e9d6ad8c989a49a76b54b2167eb2a00af0843
             }
             return resul;
         } catch (SQLException ex) {
@@ -387,6 +402,7 @@ public class DBConnection {
             return null;
         }
     }
+<<<<<<< HEAD
 
     public Pair<Object[][], String[]> selectNurse() {
         
@@ -425,14 +441,28 @@ public class DBConnection {
         
         try {
             String query = "SELECT DISTINCT rotation FROM infirmier";
+=======
+    
+    public Pair<String, Integer>[] getDocteurBySpecialty(){
+            
+        try {
+            String query = "SELECT COUNT(*) AS am, a.specialite FROM docteur" + " a GROUP BY a.specialite";
+>>>>>>> 868e9d6ad8c989a49a76b54b2167eb2a00af0843
             
             ResultSet rs = stmt.executeQuery(query);
             
             rs.last();
+<<<<<<< HEAD
             String[] resul = new String[rs.getRow()];
             rs.beforeFirst();
             while (rs.next()) {
                 resul[rs.getRow()-1] = rs.getString("rotation");
+=======
+            Pair<String, Integer>[] resul = new Pair[rs.getRow()];
+            rs.beforeFirst();
+            while (rs.next()) {
+                resul[rs.getRow()-1] = new Pair<>(rs.getString("specialite"), rs.getInt("am"));
+>>>>>>> 868e9d6ad8c989a49a76b54b2167eb2a00af0843
             }
             return resul;
         } catch (SQLException ex) {
@@ -440,6 +470,7 @@ public class DBConnection {
             return null;
         }
     }
+<<<<<<< HEAD
 
     public String[] getPatientDisease() {
         
@@ -494,4 +525,6 @@ public class DBConnection {
             return null;
         }
     }
+=======
+>>>>>>> 868e9d6ad8c989a49a76b54b2167eb2a00af0843
 }
