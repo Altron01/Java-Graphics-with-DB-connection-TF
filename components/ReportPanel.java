@@ -18,14 +18,26 @@ import org.jfree.chart.JFreeChart;
  */
 public class ReportPanel extends JPanel {
     
-    
-    public ReportPanel(double[] data){
-        CharterManager manager = new CharterManager();
-        this.add(new ChartPanel(manager.generateHistogram(data)));
+    CharterManager manager;
+    ChartPanel chart;
+
+    public ReportPanel(){
+        manager = new CharterManager();
     }
     
-    public ReportPanel(String title, Pair<String, Integer>[] data){
-        CharterManager manager = new CharterManager();
-        this.add(new ChartPanel(manager.generatePieChart(title, data)));
+    public void setChart(double[] data){
+        if(chart == null){ 
+            chart = new ChartPanel(manager.generateHistogram(data));
+            this.add(chart);
+        }
+        chart.setChart(manager.generateHistogram(data));
+    }
+    
+    public void setChart(String title, Pair<String, Integer>[] data){
+        if(chart == null){ 
+            chart = new ChartPanel(manager.generatePieChart(title, data));
+            this.add(chart);
+        }
+        chart.setChart(manager.generatePieChart(title, data));
     }
 }

@@ -28,6 +28,7 @@ public class TabPanel extends JPanel {
     
     DBConnection con;
     DefaultTableModel dataModel;
+    ReportPanel pnlReport;
     
     
     public TabPanel(){
@@ -63,6 +64,7 @@ public class TabPanel extends JPanel {
                 Pair<Object[][], String[]> val = con.selectDoctor(cbEsp.getText(), topName.getText(), topSurName.getText(), topAddres.getText(), topPhone.getText());
                 dataModel.setDataVector(val.getKey(), val.getValue());
                 dataModel.fireTableDataChanged();
+                pnlReport.setChart("caldas", con.getDoctorBySpecialty(cbEsp.getText(), topName.getText(), topSurName.getText(), topAddres.getText(), topPhone.getText()));
             }
         
         });
@@ -101,7 +103,8 @@ public class TabPanel extends JPanel {
         
         this.add(pnlMainPanel, "North");
         
-        ReportPanel pnlReport = new ReportPanel("Caldas", con.getDocteurBySpecialty());
+        pnlReport = new ReportPanel();
+        pnlReport.setChart("Caldas", con.getDoctorBySpecialty("", "", "", "", ""));
         this.add(pnlReport, "South");
         
         ActionListener l = new ActionListener () {

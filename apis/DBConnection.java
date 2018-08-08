@@ -62,11 +62,11 @@ public class DBConnection {
     public Pair<Object[][], String[]> selectDoctor(String specialty, String name, String surname, String address, String phone){
         try {
             String query = "SELECT * FROM docteur a JOIN employe b ON a.numero "
-                    +"= b.numero WHERE specialite=" + (specialty.length() > 0 ? specialty : "\"%\"")
-                    +" AND nom=" + (name.length() > 0 ? name : "\"%\"")
-                    +" AND prenom=" + (surname.length() > 0 ? surname : "\"%\"")
-                    +" AND adresse=" + (address.length() > 0 ? address : "\"%\"")
-                    +" AND tel=" + (phone.length() > 0 ? phone : "\"%\"");
+                    +"= b.numero WHERE specialite like \"" + (specialty.length() > 0 ? specialty : "%")
+                    +"\" AND nom like \"" + (name.length() > 0 ? name : "%")
+                    +"\" AND prenom like \"" + (surname.length() > 0 ? surname : "%")
+                    +"\" AND adresse like \"" + (address.length() > 0 ? address : "%")
+                    +"\" AND tel like \"" + (phone.length() > 0 ? phone : "%") + "\"";
             ResultSet rs = stmt.executeQuery(query);
             System.out.println(query);
             
@@ -360,10 +360,11 @@ public class DBConnection {
             ResultSet rs = stmt.executeQuery(query);
             
             rs.last();
-            String[] resul = new String[rs.getRow()];
+            String[] resul = new String[rs.getRow()+1];
+            resul[0] = "";
             rs.beforeFirst();
             while (rs.next()) {
-                resul[rs.getRow()-1] = rs.getString("specialite");
+                resul[rs.getRow()] = rs.getString("specialite");
             }
             return resul;
         } catch (SQLException ex) {
@@ -379,10 +380,11 @@ public class DBConnection {
             ResultSet rs = stmt.executeQuery(query);
             
             rs.last();
-            String[] resul = new String[rs.getRow()];
+            String[] resul = new String[rs.getRow()+1];
+            resul[0] = "";
             rs.beforeFirst();
             while (rs.next()) {
-                resul[rs.getRow()-1] = rs.getString("nom");
+                resul[rs.getRow()] = rs.getString("nom");
             }
             return resul;
         } catch (SQLException ex) {
@@ -391,10 +393,16 @@ public class DBConnection {
         }
     }
     
-    public Pair<String, Integer>[] getDocteurBySpecialty(){
+    public Pair<String, Integer>[] getDoctorBySpecialty(String specialty, String name, String surname, String address, String phone){
             
         try {
-            String query = "SELECT COUNT(*) AS am, a.specialite FROM docteur" + " a GROUP BY a.specialite";
+            //String query = x"SELECT COUNT(*) AS am, a.specialite FROM docteur" + " a GROUP BY a.specialite";
+            String query = "SELECT COUNT(*) AS am, c.specialite FROM (SELECT a.specialite FROM docteur a JOIN employe b ON a.numero "
+                    +"= b.numero WHERE specialite like \"" + (specialty.length() > 0 ? specialty : "%")
+                    +"\" AND nom like \"" + (name.length() > 0 ? name : "%")
+                    +"\" AND prenom like \"" + (surname.length() > 0 ? surname : "%")
+                    +"\" AND adresse like \"" + (address.length() > 0 ? address : "%")
+                    +"\" AND tel like \"" + (phone.length() > 0 ? phone : "%") + "\") c GROUP BY c.specialite";
             
             ResultSet rs = stmt.executeQuery(query);
             

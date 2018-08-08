@@ -31,8 +31,8 @@ public class TabNurses extends JPanel {
         JPanel pnlOptionsPanel = new JPanel();
         pnlOptionsPanel.setLayout(new BoxLayout(pnlOptionsPanel, BoxLayout.Y_AXIS));
         
-        pnlOptionsPanel.add(new ComboBoxOption("Code: ", con.getNurseCode()));
-        pnlOptionsPanel.add(new ComboBoxOption("Rotation: ", con.getNurseRotation()));
+        //pnlOptionsPanel.add(new ComboBoxOption("Code: ", con.getNurseCode()));
+        //pnlOptionsPanel.add(new ComboBoxOption("Rotation: ", con.getNurseRotation()));
         
         pnlOptionsPanel.add(new TextOption("Name: "));
         pnlOptionsPanel.add(new TextOption("SurName: "));
@@ -41,13 +41,13 @@ public class TabNurses extends JPanel {
         pnlMainPanel.add(pnlOptionsPanel, "West");
         pnlMainPanel.add(pnlOptionsPanel, "West");
         
-        Pair<Object[][], String[]> val = con.selectNurse();
+        //Pair<Object[][], String[]> val = con.selectNurse();
         
-        JTable tblModel = new JTable(val.getKey(), val.getValue());
-        tblModel.setFillsViewportHeight(true);
+        //JTable tblModel = new JTable(val.getKey(), val.getValue());
+        //tblModel.setFillsViewportHeight(true);
         
-        JScrollPane jspData = new JScrollPane(tblModel);
-        pnlMainPanel.add(jspData, "East");
+        //JScrollPane jspData = new JScrollPane(tblModel);
+        //pnlMainPanel.add(jspData, "East");
         
         this.add(pnlMainPanel, "North");
     }
