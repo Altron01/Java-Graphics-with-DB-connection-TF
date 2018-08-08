@@ -355,10 +355,18 @@ public class DBConnection {
             return null;
         }
     }
+<<<<<<< HEAD
+
+    public String[] getNurseCode() {
+        
+        try {
+            String query = "SELECT DISTINCT code_service FROM infirmier";
+=======
     
     public String[] getServiceNom(){
         try {
             String query = "SELECT DISTINCT nom FROM service";
+>>>>>>> 868e9d6ad8c989a49a76b54b2167eb2a00af0843
             
             ResultSet rs = stmt.executeQuery(query);
             
@@ -367,7 +375,15 @@ public class DBConnection {
             resul[0] = "";
             rs.beforeFirst();
             while (rs.next()) {
+<<<<<<< HEAD
                 resul[rs.getRow()] = rs.getString("nom");
+=======
+<<<<<<< HEAD
+                resul[rs.getRow()-1] = rs.getString("code_service");
+=======
+                resul[rs.getRow()-1] = rs.getString("nom");
+>>>>>>> 868e9d6ad8c989a49a76b54b2167eb2a00af0843
+>>>>>>> 7e5824fbf59ff3f68971755f849f2acc4a02fb43
             }
             return resul;
         } catch (SQLException ex) {
@@ -375,10 +391,51 @@ public class DBConnection {
             return null;
         }
     }
+<<<<<<< HEAD
+
+    public Pair<Object[][], String[]> selectNurse() {
+        
+        try {
+            String query = "SELECT * FROM infirmier a JOIN employe b ON a.numero = b.numero";
+            
+            ResultSet rs = stmt.executeQuery(query);
+            System.out.println(query);
+            
+            ResultSetMetaData metaData = rs.getMetaData();
+            int count = metaData.getColumnCount(); //number of column
+            String columnName[] = new String[count];
+            for (int i = 1; i <= count; i++)
+            {
+               columnName[i-1] = metaData.getColumnLabel(i);
+            }
+            
+            rs.last();
+            Object[][] data = new Object[rs.getRow()][];
+            rs.beforeFirst();
+            while (rs.next()) {
+                Object values[] = new String[columnName.length];
+                for(int i = 0; i < columnName.length; i++){
+                    values[i] = rs.getObject(columnName[i]).toString();
+                }
+                data[rs.getRow()-1] = values;
+            }
+            return new Pair<>(data, columnName);
+        } catch (SQLException ex) {
+            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+
+    public String[] getNurseRotation() {
+        
+        try {
+            String query = "SELECT DISTINCT rotation FROM infirmier";
+=======
     
     public Pair<String, Integer>[] getDoctorBySpecialty(String specialty, String name, String surname, String address, String phone){
             
         try {
+<<<<<<< HEAD
             //String query = x"SELECT COUNT(*) AS am, a.specialite FROM docteur" + " a GROUP BY a.specialite";
             String query = "SELECT COUNT(*) AS am, c.specialite FROM (SELECT a.specialite FROM docteur a JOIN employe b ON a.numero "
                     +"= b.numero WHERE specialite like \"" + (specialty.length() > 0 ? specialty : "%")
@@ -386,14 +443,25 @@ public class DBConnection {
                     +"\" AND prenom like \"" + (surname.length() > 0 ? surname : "%")
                     +"\" AND adresse like \"" + (address.length() > 0 ? address : "%")
                     +"\" AND tel like \"" + (phone.length() > 0 ? phone : "%") + "\") c GROUP BY c.specialite";
+=======
+            String query = "SELECT COUNT(*) AS am, a.specialite FROM docteur" + " a GROUP BY a.specialite";
+>>>>>>> 868e9d6ad8c989a49a76b54b2167eb2a00af0843
+>>>>>>> 7e5824fbf59ff3f68971755f849f2acc4a02fb43
             
             ResultSet rs = stmt.executeQuery(query);
             
             rs.last();
+<<<<<<< HEAD
+            String[] resul = new String[rs.getRow()];
+            rs.beforeFirst();
+            while (rs.next()) {
+                resul[rs.getRow()-1] = rs.getString("rotation");
+=======
             Pair<String, Integer>[] resul = new Pair[rs.getRow()];
             rs.beforeFirst();
             while (rs.next()) {
                 resul[rs.getRow()-1] = new Pair<>(rs.getString("specialite"), rs.getInt("am"));
+>>>>>>> 868e9d6ad8c989a49a76b54b2167eb2a00af0843
             }
             return resul;
         } catch (SQLException ex) {
@@ -401,4 +469,61 @@ public class DBConnection {
             return null;
         }
     }
+<<<<<<< HEAD
+
+    public String[] getPatientDisease() {
+        
+        try {
+            String query = "SELECT DISTINCT mutuelle FROM malade";
+            
+            ResultSet rs = stmt.executeQuery(query);
+            
+            rs.last();
+            String[] resul = new String[rs.getRow()];
+            rs.beforeFirst();
+            while (rs.next()) {
+                resul[rs.getRow()-1] = rs.getString("mutuelle");
+            }
+            return resul;
+        } catch (SQLException ex) {
+            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+
+    public Pair<Object[][], String[]> selectPatient() {
+        
+        
+        try {
+            String query = "SELECT * FROM malade";
+            
+            ResultSet rs = stmt.executeQuery(query);
+            System.out.println(query);
+            
+            ResultSetMetaData metaData = rs.getMetaData();
+            int count = metaData.getColumnCount(); //number of column
+            String columnName[] = new String[count];
+            for (int i = 1; i <= count; i++)
+            {
+               columnName[i-1] = metaData.getColumnLabel(i);
+            }
+            
+            rs.last();
+            Object[][] data = new Object[rs.getRow()][];
+            rs.beforeFirst();
+            while (rs.next()) {
+                Object values[] = new String[columnName.length];
+                for(int i = 0; i < columnName.length; i++){
+                    values[i] = rs.getObject(columnName[i]).toString();
+                }
+                data[rs.getRow()-1] = values;
+            }
+            return new Pair<>(data, columnName);
+        } catch (SQLException ex) {
+            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+=======
+>>>>>>> 868e9d6ad8c989a49a76b54b2167eb2a00af0843
 }
