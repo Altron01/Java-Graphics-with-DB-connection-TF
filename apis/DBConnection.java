@@ -217,6 +217,36 @@ public class DBConnection {
         }
     }
     
+    public Pair<Object[][], String[]> customeSelect(String query){
+    
+        try {
+            
+            ResultSet rs = stmt.executeQuery(query);
+            System.out.println(query);
+            ResultSetMetaData metaData = rs.getMetaData();
+            int count = metaData.getColumnCount(); //number of column
+            String[] columnName = new String[count];
+            for (int i = 1; i <= count; i++)
+            {
+               columnName[i-1] = metaData.getColumnLabel(i);
+            }
+            rs.last();
+            Object[][] data = new Object[rs.getRow()][];
+            rs.beforeFirst();
+            while (rs.next()) {
+                Object values[] = new String[columnName.length];
+                for(int i = 0; i < columnName.length; i++){
+                    values[i] = rs.getObject(columnName[i]).toString();
+                }
+                data[rs.getRow()-1] = values;
+            }
+            return new Pair<>(data, columnName);
+        } catch (SQLException ex) {
+            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+    
     public <T> boolean delete(String table, String param, T code){
         try {
             String query = "DELETE FROM " + table + " WHERE " + param + "=" + code;
@@ -232,6 +262,10 @@ public class DBConnection {
             return false;
         }
     }
+    
+    
+    
+    
     
     public boolean insertEmploye(){
         try {
@@ -310,6 +344,27 @@ public class DBConnection {
         } catch (SQLException ex) {
             Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
             return false;
+        }
+    }
+    
+    
+    
+    public String[] getDocteurEspetialty(){
+        try {
+            String query = "SELECT DISTINCT specialite FROM docteur";
+            
+            ResultSet rs = stmt.executeQuery(query);
+            
+            rs.last();
+            String[] resul = new String[rs.getRow()];
+            rs.beforeFirst();
+            while (rs.next()) {
+                resul[rs.getRow()-1] = rs.getString("specialite");
+            }
+            return resul;
+        } catch (SQLException ex) {
+            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
         }
     }
 }

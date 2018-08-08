@@ -5,9 +5,16 @@
  */
 package tf;
 
+import apis.CharterManager;
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
-
+import components.*;
+import java.awt.BorderLayout;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import org.jfree.chart.ChartPanel;
 /**
  *
  * @author altron01
@@ -18,16 +25,15 @@ public class TF {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        
         JFrame frame = new JFrame();
         frame.setSize(800, 400);
-        
-        JTabbedPane Jtp = new JTabbedPane();;
-
-        frame.add(Jtp);
+        MainPanel pnlMain = new MainPanel();
+        frame.add(pnlMain);
         
         frame.setVisible(true);
-        frame.pack();
         frame.validate();
+        frame.pack();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
     

@@ -23,12 +23,12 @@ import javax.swing.table.TableModel;
  *
  * @author altron01
  */
-public class QueryTab extends JPanel {
+public class QueryPanel extends JPanel {
     
     DBConnection con;
     DefaultTableModel tblModel;
     
-    public QueryTab() {
+    public QueryPanel() {
         con = DBConnection.getInstance();
         
         this.setLayout(new BorderLayout());
