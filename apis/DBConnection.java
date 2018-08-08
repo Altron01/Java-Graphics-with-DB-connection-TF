@@ -187,40 +187,6 @@ public class DBConnection {
         }
     }
     
-    public Pair<Object[][], String[]> select(String tableName, String[] columns, String[] params){
-        try {
-            
-            String query = "SELECT ";
-            String[] columnsNames = dbMapping.get(tableName);
-            for(int i = 0; i < columnsNames.length - 1; i++){
-                query += columnsNames[i] + ", ";
-            }
-            query += columnsNames[columnsNames.length - 1] + " FROM " + tableName + " WHERE";
-            for(int i = 0; i < params.length; i++){
-                query += " " + columns[i] + "=" + params[i];
-            }
-            query += ";";
-            
-            ResultSet rs = stmt.executeQuery(query);
-            System.out.println(query);
-            
-            rs.last();
-            Object[][] data = new Object[rs.getRow()][];
-            rs.beforeFirst();
-            while (rs.next()) {
-                Object values[] = new String[columnsNames.length];
-                for(int i = 0; i < columnsNames.length; i++){
-                    values[i] = rs.getObject(columnsNames[i]).toString();
-                }
-                data[rs.getRow()-1] = values;
-            }
-            return new Pair<>(data, columnsNames);
-        } catch (SQLException ex) {
-            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
-        }
-    }
-    
     public Pair<Object[][], String[]> customeSelect(String query){
     
         try {
@@ -274,7 +240,7 @@ public class DBConnection {
     public boolean insertEmploye(){
         try {
             String query = "DELETE FROM ";
-            PreparedStatement ps = conn.prepareStatement(query);/*
+            PreparedStatement ps = conn.prepareStatement(query);
             //if(code instanceof String)
             //    ps.setString(1, (String)code);
             //if(code instanceof BigDecimal)
@@ -287,15 +253,32 @@ public class DBConnection {
         }
     }
     
-    public boolean insertDocteur(){
+    public boolean insertDoctor(String specialty, String name, String surname, String address, String phone){
         try {
-            String query = "DELETE FROM ";
-            PreparedStatement ps = conn.prepareStatement(query);/*
-            if(code instanceof String)
-                ps.setString(1, (String)code);
-            if(code instanceof BigDecimal)
-                ps.setBigDecimal(1, (BigDecimal)code);
-            ps.executeUpdate();*/
+            String query = "SELECT (SELECT MAX(numero) FROM employe) + 1 as n";
+            ResultSet rs = stmt.executeQuery(query);
+            rs.next();
+            int numero = rs.getInt("n");
+            query = "INSERT INTO employe (numero, nom, prenom, adresse, tel) VALUES (\"" + numero + "\", \"" + name
+                    + "\", \"" + surname + "\", \"" + address + "\", \"" + phone + "\")";
+            System.out.println(query);
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.executeUpdate();
+            query = "INSERT INTO docteur (numero, specialite) VALUES (" + numero + ", \"" + specialty + "\")";
+            ps = conn.prepareStatement(query);
+            ps.executeUpdate();
+            
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+    
+    public boolean deleteDoctor(String numero){
+        try {
+            String query = "DELETE FROM docteur WHERE numero=" + numero;
+            stmt.executeQuery(query);
             return true;
         } catch (SQLException ex) {
             Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);

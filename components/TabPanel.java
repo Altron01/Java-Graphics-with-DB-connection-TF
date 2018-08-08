@@ -27,6 +27,7 @@ import javax.swing.table.DefaultTableModel;
 public class TabPanel extends JPanel {
     
     DBConnection con;
+    JTable tblModel;
     DefaultTableModel dataModel;
     ReportPanel pnlReport;
     
@@ -69,9 +70,19 @@ public class TabPanel extends JPanel {
         
         });
         pnlOptionsPanel.add(btnSearch);
-        
         JButton btnInsert = new JButton();
         btnInsert.setText("Insert");
+        btnInsert.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                con.insertDoctor(cbEsp.getText(), topName.getText(), topSurName.getText(), topAddres.getText(), topPhone.getText());
+                Pair<Object[][], String[]> val = con.selectDoctor(cbEsp.getText(), topName.getText(), topSurName.getText(), topAddres.getText(), topPhone.getText());
+                dataModel.setDataVector(val.getKey(), val.getValue());
+                dataModel.fireTableDataChanged();
+                pnlReport.setChart("caldas", con.getDoctorBySpecialty("", "", "", "", ""));
+            }
+        
+        });
         pnlOptionsPanel.add(btnInsert);
         
         JButton btnUpdate = new JButton();
@@ -79,7 +90,8 @@ public class TabPanel extends JPanel {
         btnUpdate.addMouseListener(new MouseAdapter(){
             @Override
             public void mouseClicked(MouseEvent e) {
-                ////con.update("docteur", updateValues, TOOL_TIP_TEXT_KEY, TOOL_TIP_TEXT_KEY)
+                int row = tblModel.getSelectedRow();
+                String numero = (String)tblModel.getValueAt(row, 0);
             }
         
         });
@@ -88,13 +100,23 @@ public class TabPanel extends JPanel {
         JButton btnDelete = new JButton();
         btnDelete.setText("Delete");
         btnDelete.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int row = tblModel.getSelectedRow();
+                String numero = (String)tblModel.getValueAt(row, 0);
+                con.deleteDoctor(numero);
+                Pair<Object[][], String[]> val = con.selectDoctor(cbEsp.getText(), topName.getText(), topSurName.getText(), topAddres.getText(), topPhone.getText());
+                dataModel.setDataVector(val.getKey(), val.getValue());
+                dataModel.fireTableDataChanged();
+                pnlReport.setChart("caldas", con.getDoctorBySpecialty("", "", "", "", ""));
+            }
             
         });
         pnlOptionsPanel.add(btnDelete);
         
         pnlMainPanel.add(pnlOptionsPanel, "West");
         
-        JTable tblModel = new JTable();
+        tblModel = new JTable();
         dataModel = (DefaultTableModel) (tblModel.getModel());
         tblModel.setFillsViewportHeight(true);
         JScrollPane jspData = new JScrollPane(tblModel);
