@@ -476,11 +476,19 @@ public class DBConnection {
             Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
+<<<<<<< HEAD
     }    
+=======
+    }
+>>>>>>> 3f2f400d8de8c2dedf4ec976d33ab56504d490b2
     
     public String[] getDoctorFullName(){
         try {
+<<<<<<< HEAD
             String query = "SELECT DISTINCT prenom, nom FROM docteur a JOIN employe b ON a.numero=b.numero";
+=======
+            String query = "SELECT DISTINCT nom FROM service";
+>>>>>>> 3f2f400d8de8c2dedf4ec976d33ab56504d490b2
             
             ResultSet rs = stmt.executeQuery(query);
             
@@ -489,7 +497,11 @@ public class DBConnection {
             resul[0] = "";
             rs.beforeFirst();
             while (rs.next()) {
+<<<<<<< HEAD
                 resul[rs.getRow()] = rs.getString("prenom") + " " + rs.getString("nom");
+=======
+                resul[rs.getRow()] = rs.getString("nom");
+>>>>>>> 3f2f400d8de8c2dedf4ec976d33ab56504d490b2
             }
             return resul;
         } catch (SQLException ex) {
@@ -498,7 +510,38 @@ public class DBConnection {
         }
     }
     
+<<<<<<< HEAD
     public String[] getRotation(){
+=======
+    public Pair<String, Integer>[] getDoctorBySpecialty(String specialty, String name, String surname, String address, String phone){
+            
+        try {
+            //String query = x"SELECT COUNT(*) AS am, a.specialite FROM docteur" + " a GROUP BY a.specialite";
+            String query = "SELECT COUNT(*) AS am, c.specialite FROM (SELECT a.specialite FROM docteur a JOIN employe b ON a.numero "
+                    +"= b.numero WHERE specialite like \"" + (specialty.length() > 0 ? specialty : "%")
+                    +"\" AND nom like \"" + (name.length() > 0 ? name : "%")
+                    +"\" AND prenom like \"" + (surname.length() > 0 ? surname : "%")
+                    +"\" AND adresse like \"" + (address.length() > 0 ? address : "%")
+                    +"\" AND tel like \"" + (phone.length() > 0 ? phone : "%") + "\") c GROUP BY c.specialite";
+            
+            ResultSet rs = stmt.executeQuery(query);
+            
+            rs.last();
+            Pair<String, Integer>[] resul = new Pair[rs.getRow()];
+            rs.beforeFirst();
+            while (rs.next()) {
+                resul[rs.getRow()-1] = new Pair<>(rs.getString("specialite"), rs.getInt("am"));
+            }
+            return resul;
+        } catch (SQLException ex) {
+            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+    
+    public Pair<Object[][], String[]> selectNurse() {
+        
+>>>>>>> 3f2f400d8de8c2dedf4ec976d33ab56504d490b2
         try {
             String query = "SELECT DISTINCT rotation FROM infirmier";
             
@@ -538,6 +581,7 @@ public class DBConnection {
             return null;
         }
     }
+<<<<<<< HEAD
     
     public Pair<String, Integer>[] getDoctorBySpecialty(String specialty, String name, String surname, String address, String phone){
             
@@ -549,14 +593,28 @@ public class DBConnection {
                     +"\" AND nom like \"" + (surname.length() > 0 ? surname : "%")
                     +"\" AND adresse like \"" + (address.length() > 0 ? address : "%")
                     +"\" AND tel like \"" + (phone.length() > 0 ? phone : "%") + "\") c GROUP BY c.specialite";
+=======
+
+    public String[] getNurseRotation() {
+        
+        try {
+            String query = "SELECT DISTINCT rotation FROM infirmier";
+>>>>>>> 3f2f400d8de8c2dedf4ec976d33ab56504d490b2
             
             ResultSet rs = stmt.executeQuery(query);
             
             rs.last();
+<<<<<<< HEAD
             Pair<String, Integer>[] resul = new Pair[rs.getRow()];
             rs.beforeFirst();
             while (rs.next()) {
                 resul[rs.getRow()-1] = new Pair<>(rs.getString("specialite"), rs.getInt("am"));
+=======
+            String[] resul = new String[rs.getRow()];
+            rs.beforeFirst();
+            while (rs.next()) {
+                resul[rs.getRow()-1] = rs.getString("rotation");
+>>>>>>> 3f2f400d8de8c2dedf4ec976d33ab56504d490b2
             }
             return resul;
         } catch (SQLException ex) {
@@ -564,8 +622,14 @@ public class DBConnection {
             return null;
         }
     }
+<<<<<<< HEAD
       
     public String[] getDoctorSpecialtyByName(String name, String surname){
+=======
+
+    public String[] getPatientDisease() {
+        
+>>>>>>> 3f2f400d8de8c2dedf4ec976d33ab56504d490b2
         try {
             String[] resul;
             String query = "SELECT DISTINCT specialite FROM employe a JOIN docteur b ON a.numero=b.numero WHERE prenom like \"" + (name.length() > 0 ? name : "%") + "\" AND nom like \"" + (surname.length() > 0 ? surname : "%") + "\"";
@@ -602,5 +666,30 @@ public class DBConnection {
             Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
+<<<<<<< HEAD
     }   
 }
+=======
+    }
+    
+    public String[] getNurseCode() {
+        
+        try {
+            String query = "SELECT DISTINCT code_service FROM infirmier";
+            
+            ResultSet rs = stmt.executeQuery(query);
+            
+            rs.last();
+            String[] resul = new String[rs.getRow()];
+            rs.beforeFirst();
+            while (rs.next()) {
+                resul[rs.getRow()-1] = rs.getString("code_service");
+            }
+            return resul;
+        } catch (SQLException ex) {
+            Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+}
+>>>>>>> 3f2f400d8de8c2dedf4ec976d33ab56504d490b2
