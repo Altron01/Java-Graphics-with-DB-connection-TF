@@ -30,7 +30,7 @@ public class TabNurses extends JPanel {
         pnlMainPanel.setLayout(new BorderLayout());
         JPanel pnlOptionsPanel = new JPanel();
         pnlOptionsPanel.setLayout(new BoxLayout(pnlOptionsPanel, BoxLayout.Y_AXIS));
-        
+        /*
         pnlOptionsPanel.add(new ComboBoxOption("Code: ", con.getNurseCode()));
         pnlOptionsPanel.add(new ComboBoxOption("Rotation: ", con.getNurseRotation()));
         
@@ -49,7 +49,7 @@ public class TabNurses extends JPanel {
         
         JScrollPane jspData = new JScrollPane(tblModel);
         pnlMainPanel.add(jspData, "East");
-        
+        */
         this.add(pnlMainPanel, "North");
     }
     
