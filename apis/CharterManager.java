@@ -10,6 +10,7 @@ import javafx.util.Pair;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.statistics.HistogramDataset;
 import org.jfree.data.statistics.HistogramType;
@@ -40,14 +41,32 @@ public class CharterManager {
       return chart;
     }
     
-    public JFreeChart generateHistogram(double[] data){
+    public JFreeChart generateHistogram(double[] data, String xTitle, String yTitle, String title){
 
+        
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+
+        for(int i = 0; i < data.length; i++){
+            dataset.addValue(data[i], Integer.toString(i), Integer.toString(i));
+        }
+        
+        JFreeChart chart = ChartFactory.createBarChart(
+            title,         // chart title
+            xTitle,               // domain axis label
+            yTitle,                  // range axis label
+            dataset,                  // data
+            PlotOrientation.VERTICAL, // orientation
+            true,                     // include legend
+            true,                     // tooltips?
+            false                     // URLs?
+        );
+        /*
         HistogramDataset dataset = new HistogramDataset();
         dataset.setType(HistogramType.RELATIVE_FREQUENCY);
-        dataset.addSeries("Hist",data,200);
-        String plotTitle = "";
-        String xAxis = "Frequency";
-        String yAxis = "Mass Error (Da)";
+        dataset.addSeries("Hist",data,20);
+        String plotTitle = title;
+        String xAxis = xTitle;
+        String yAxis = yTitle;
         PlotOrientation orientation = PlotOrientation.VERTICAL;
 
         boolean show = false;
@@ -55,7 +74,7 @@ public class CharterManager {
         boolean urls = false;
         JFreeChart chart = ChartFactory.createHistogram(plotTitle, xAxis, yAxis,
                 dataset, orientation, show, toolTips, urls);
-
+        */
         chart.setBackgroundPaint(Color.white);
 
         return chart;

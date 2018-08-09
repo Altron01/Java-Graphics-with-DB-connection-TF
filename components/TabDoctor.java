@@ -24,7 +24,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author altron01
  */
-public class TabPanel extends JPanel {
+public class TabDoctor extends JPanel {
     
     DBConnection con;
     JTable tblModel;
@@ -32,11 +32,11 @@ public class TabPanel extends JPanel {
     ReportPanel pnlReport;
     
     
-    public TabPanel(){
+    public TabDoctor(){
         
         con = DBConnection.getInstance();
         
-        this.setLayout(new BorderLayout());
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         JPanel pnlMainPanel = new JPanel();
         pnlMainPanel.setLayout(new BorderLayout());
         JPanel pnlOptionsPanel = new JPanel();
@@ -48,11 +48,11 @@ public class TabPanel extends JPanel {
         TextOption topName = new TextOption("Name: ");
         pnlOptionsPanel.add(topName);
         
-        TextOption topSurName = new TextOption("SurName: ");
-        pnlOptionsPanel.add(topSurName);
+        TextOption topSurname = new TextOption("Surname: ");
+        pnlOptionsPanel.add(topSurname);
         
-        TextOption topAddres = new TextOption("Addres: ");
-        pnlOptionsPanel.add(topAddres);
+        TextOption topAddress = new TextOption("Address: ");
+        pnlOptionsPanel.add(topAddress);
         
         TextOption topPhone = new TextOption("Phone: ");
         pnlOptionsPanel.add(topPhone);
@@ -62,10 +62,10 @@ public class TabPanel extends JPanel {
         btnSearch.addMouseListener(new MouseAdapter(){
             @Override
             public void mouseClicked(MouseEvent e) {
-                Pair<Object[][], String[]> val = con.selectDoctor(cbEsp.getText(), topName.getText(), topSurName.getText(), topAddres.getText(), topPhone.getText());
+                Pair<Object[][], String[]> val = con.selectDoctor(cbEsp.getText(), topName.getText(), topSurname.getText(), topAddress.getText(), topPhone.getText());
                 dataModel.setDataVector(val.getKey(), val.getValue());
                 dataModel.fireTableDataChanged();
-                pnlReport.setChart("caldas", con.getDoctorBySpecialty(cbEsp.getText(), topName.getText(), topSurName.getText(), topAddres.getText(), topPhone.getText()));
+                pnlReport.setChart("caldas", con.getDoctorBySpecialty(cbEsp.getText(), topName.getText(), topSurname.getText(), topAddress.getText(), topPhone.getText()));
             }
         
         });
@@ -75,8 +75,8 @@ public class TabPanel extends JPanel {
         btnInsert.addMouseListener(new MouseAdapter(){
             @Override
             public void mouseClicked(MouseEvent e) {
-                con.insertDoctor(cbEsp.getText(), topName.getText(), topSurName.getText(), topAddres.getText(), topPhone.getText());
-                Pair<Object[][], String[]> val = con.selectDoctor(cbEsp.getText(), topName.getText(), topSurName.getText(), topAddres.getText(), topPhone.getText());
+                con.insertDoctor(cbEsp.getText(), topName.getText(), topSurname.getText(), topAddress.getText(), topPhone.getText());
+                Pair<Object[][], String[]> val = con.selectDoctor(cbEsp.getText(), topName.getText(), topSurname.getText(), topAddress.getText(), topPhone.getText());
                 dataModel.setDataVector(val.getKey(), val.getValue());
                 dataModel.fireTableDataChanged();
                 pnlReport.setChart("caldas", con.getDoctorBySpecialty("", "", "", "", ""));
@@ -92,6 +92,11 @@ public class TabPanel extends JPanel {
             public void mouseClicked(MouseEvent e) {
                 int row = tblModel.getSelectedRow();
                 String numero = (String)tblModel.getValueAt(row, 0);
+                con.updateDoctor(numero, cbEsp.getText(), topName.getText(), topSurname.getText(), topAddress.getText(), topPhone.getText());
+                Pair<Object[][], String[]> val = con.selectDoctor(cbEsp.getText(), topName.getText(), topSurname.getText(), topAddress.getText(), topPhone.getText());
+                dataModel.setDataVector(val.getKey(), val.getValue());
+                dataModel.fireTableDataChanged();
+                pnlReport.setChart("caldas", con.getDoctorBySpecialty("", "", "", "", ""));
             }
         
         });
@@ -105,7 +110,7 @@ public class TabPanel extends JPanel {
                 int row = tblModel.getSelectedRow();
                 String numero = (String)tblModel.getValueAt(row, 0);
                 con.deleteDoctor(numero);
-                Pair<Object[][], String[]> val = con.selectDoctor(cbEsp.getText(), topName.getText(), topSurName.getText(), topAddres.getText(), topPhone.getText());
+                Pair<Object[][], String[]> val = con.selectDoctor(cbEsp.getText(), topName.getText(), topSurname.getText(), topAddress.getText(), topPhone.getText());
                 dataModel.setDataVector(val.getKey(), val.getValue());
                 dataModel.fireTableDataChanged();
                 pnlReport.setChart("caldas", con.getDoctorBySpecialty("", "", "", "", ""));
@@ -113,6 +118,8 @@ public class TabPanel extends JPanel {
             
         });
         pnlOptionsPanel.add(btnDelete);
+        
+        
         
         pnlMainPanel.add(pnlOptionsPanel, "West");
         
@@ -123,19 +130,12 @@ public class TabPanel extends JPanel {
         
         pnlMainPanel.add(jspData, "East");
         
-        this.add(pnlMainPanel, "North");
+        this.add(pnlMainPanel);
         
+        JScrollPane pnlReportPanel = new JScrollPane();
         pnlReport = new ReportPanel();
-        pnlReport.setChart("Caldas", con.getDoctorBySpecialty("", "", "", "", ""));
-        this.add(pnlReport, "South");
-        
-        ActionListener l = new ActionListener () {
-            
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                
-            }
-        };
-        
+        pnlReport.setChart("Doctors by Specialty", con.getDoctorBySpecialty("", "", "", "", ""));
+        pnlReportPanel.setViewportView(pnlReport);
+        this.add(pnlReportPanel);
     }
 }

@@ -25,12 +25,12 @@ public class ReportPanel extends JPanel {
         manager = new CharterManager();
     }
     
-    public void setChart(double[] data){
+    public void setChart(double[] data, String xTitle, String yTitle, String title){
         if(chart == null){ 
-            chart = new ChartPanel(manager.generateHistogram(data));
+            chart = new ChartPanel(manager.generateHistogram(data, xTitle, yTitle, title));
             this.add(chart);
         }
-        chart.setChart(manager.generateHistogram(data));
+        chart.setChart(manager.generateHistogram(data, xTitle, yTitle, title));
     }
     
     public void setChart(String title, Pair<String, Integer>[] data){
