@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package components;
 
 import apis.DBConnection;
@@ -13,14 +8,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
-
-
-public class TabNurses extends JPanel {
+public class TabPatients extends JPanel {
     
     DBConnection con;
-    
-    public TabNurses() {
-        
+
+    public TabPatients() {
         con = DBConnection.getInstance();
         
         this.setLayout(new BorderLayout());
@@ -29,17 +21,19 @@ public class TabNurses extends JPanel {
         JPanel pnlOptionsPanel = new JPanel();
         pnlOptionsPanel.setLayout(new BoxLayout(pnlOptionsPanel, BoxLayout.Y_AXIS));
         
-        pnlOptionsPanel.add(new ComboBoxOption("Code: ", con.getNurseCode()));
-        pnlOptionsPanel.add(new ComboBoxOption("Rotation: ", con.getNurseRotation()));
+        pnlOptionsPanel.add(new ComboBoxOption("Disease: ", con.getPatientDisease()));
         
         pnlOptionsPanel.add(new TextOption("Name: "));
         pnlOptionsPanel.add(new TextOption("SurName: "));
+        pnlOptionsPanel.add(new TextOption("Addres: "));
+        pnlOptionsPanel.add(new TextOption("Tlf: "));
+        pnlOptionsPanel.add(new TextOption("Mutuelle: "));
         
         
         pnlMainPanel.add(pnlOptionsPanel, "West");
         pnlMainPanel.add(pnlOptionsPanel, "West");
         
-        Pair<Object[][], String[]> val = con.selectNurse();
+        Pair<Object[][], String[]> val = con.selectPatient();
         
         JTable tblModel = new JTable(val.getKey(), val.getValue());
         tblModel.setFillsViewportHeight(true);
