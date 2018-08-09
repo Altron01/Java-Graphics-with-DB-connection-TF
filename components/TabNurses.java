@@ -37,19 +37,9 @@ public class TabNurses extends JPanel {
         pnlMainPanel.setLayout(new BorderLayout());
         JPanel pnlOptionsPanel = new JPanel();
         pnlOptionsPanel.setLayout(new BoxLayout(pnlOptionsPanel, BoxLayout.Y_AXIS));
-<<<<<<< HEAD
         
         ComboBoxOption cbRot = new ComboBoxOption("Rotation: ", con.getRotation());
         pnlOptionsPanel.add(cbRot);
-=======
-        
-        pnlOptionsPanel.add(new ComboBoxOption("Code: ", con.getNurseCode()));
-        pnlOptionsPanel.add(new ComboBoxOption("Rotation: ", con.getNurseRotation()));
-        
-        pnlOptionsPanel.add(new TextOption("Name: "));
-        pnlOptionsPanel.add(new TextOption("SurName: "));
-        
->>>>>>> 3f2f400d8de8c2dedf4ec976d33ab56504d490b2
         
         ComboBoxOption cbCodeServ = new ComboBoxOption("Service Code: ", con.getCodeService());
         pnlOptionsPanel.add(cbCodeServ);
@@ -150,7 +140,6 @@ public class TabNurses extends JPanel {
         
         pnlMainPanel.add(jspData, "East");
         
-<<<<<<< HEAD
         this.add(pnlMainPanel);
         
         
@@ -159,9 +148,6 @@ public class TabNurses extends JPanel {
         pnlReport.setChart("Amount of Nurses per turn", con.getNurseByTurn("", "", "", "", "", ""));
         pnlReportPanel.setViewportView(pnlReport);
         this.add(pnlReportPanel);
-=======
-        this.add(pnlMainPanel, "North");
->>>>>>> 3f2f400d8de8c2dedf4ec976d33ab56504d490b2
     }
     
 }
