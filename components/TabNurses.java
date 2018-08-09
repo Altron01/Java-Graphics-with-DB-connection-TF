@@ -36,8 +36,7 @@ public class TabNurses extends JPanel {
         
         pnlOptionsPanel.add(new TextOption("Name: "));
         pnlOptionsPanel.add(new TextOption("SurName: "));
-        pnlOptionsPanel.add(new TextOption("Adres: "));
-        pnlOptionsPanel.add(new TextOption("Tlf: "));
+        
         
         pnlMainPanel.add(pnlOptionsPanel, "West");
         pnlMainPanel.add(pnlOptionsPanel, "West");
