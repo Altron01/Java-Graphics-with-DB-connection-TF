@@ -23,9 +23,10 @@ public class TabPatients extends JPanel {
     ReportPanel pnlReport;
     ComboBoxOption cbDFName;
     ComboBoxOption cbService;
+    JPanel self;
 
     public TabPatients() {
-        
+        self = this;
         con = DBConnection.getInstance();
         
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -51,11 +52,11 @@ public class TabPatients extends JPanel {
         cbService = new ComboBoxOption("Service: ", con.getCodeService());
         pnlOptionsPanel.add(cbService);
         
-        TextOption topSurName = new TextOption("Name: ");
-        pnlOptionsPanel.add(topSurName);
-        
-        TextOption topName = new TextOption("SurName: ");
+        TextOption topName = new TextOption("Name: ");
         pnlOptionsPanel.add(topName);
+        
+        TextOption topSurName = new TextOption("SurName: ");
+        pnlOptionsPanel.add(topSurName);
         
         TextOption topAddres = new TextOption("Addres: ");
         pnlOptionsPanel.add(topAddres);
@@ -79,8 +80,8 @@ public class TabPatients extends JPanel {
                     val = con.selectPatient("", "", topName.getText(), topSurName.getText(), topAddres.getText(), topPhone.getText(), topM.getText());
                 dataModel.setDataVector(val.getKey(), val.getValue());
                 dataModel.fireTableDataChanged();
+                self.revalidate();
                 
-                //pnlReport.setChart("caldas", con.getNurseByTurn(cbCodeServ.getText(), cbRot.getText(), topName.getText(), topSurName.getText(), topAddres.getText(), topPhone.getText()));
                 
             }
         
@@ -104,6 +105,7 @@ public class TabPatients extends JPanel {
                 }
                 dataModel.setDataVector(val.getKey(), val.getValue());
                 dataModel.fireTableDataChanged();
+                self.revalidate();
                 
             }
         
@@ -128,6 +130,7 @@ public class TabPatients extends JPanel {
                 }
                 dataModel.setDataVector(val.getKey(), val.getValue());
                 dataModel.fireTableDataChanged();
+                self.revalidate();
             }
         
         });
@@ -146,6 +149,7 @@ public class TabPatients extends JPanel {
                 Pair<Object[][], String[]> val = con.selectPatient(dFNames[0], dFNames[1], topName.getText(), topSurName.getText(), topAddres.getText(), topPhone.getText(), topM.getText());
                 dataModel.setDataVector(val.getKey(), val.getValue());
                 dataModel.fireTableDataChanged();
+                self.revalidate();
                 
             }
             

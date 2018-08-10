@@ -30,10 +30,11 @@ public class TabDoctor extends JPanel {
     JTable tblModel;
     DefaultTableModel dataModel;
     ReportPanel pnlReport;
-    
+    JPanel self;
     
     public TabDoctor(){
         
+        self = this;
         con = DBConnection.getInstance();
         
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -65,7 +66,8 @@ public class TabDoctor extends JPanel {
                 Pair<Object[][], String[]> val = con.selectDoctor(cbEsp.getText(), topName.getText(), topSurname.getText(), topAddress.getText(), topPhone.getText());
                 dataModel.setDataVector(val.getKey(), val.getValue());
                 dataModel.fireTableDataChanged();
-                pnlReport.setChart("caldas", con.getDoctorBySpecialty(cbEsp.getText(), topName.getText(), topSurname.getText(), topAddress.getText(), topPhone.getText()));
+                pnlReport.setChart("Doctors by Specialty", con.getDoctorBySpecialty(cbEsp.getText(), topName.getText(), topSurname.getText(), topAddress.getText(), topPhone.getText()));
+                self.revalidate();
             }
         
         });
@@ -79,7 +81,8 @@ public class TabDoctor extends JPanel {
                 Pair<Object[][], String[]> val = con.selectDoctor(cbEsp.getText(), topName.getText(), topSurname.getText(), topAddress.getText(), topPhone.getText());
                 dataModel.setDataVector(val.getKey(), val.getValue());
                 dataModel.fireTableDataChanged();
-                pnlReport.setChart("caldas", con.getDoctorBySpecialty("", "", "", "", ""));
+                pnlReport.setChart("Doctors by Specialty", con.getDoctorBySpecialty("", "", "", "", ""));
+                self.revalidate();
             }
         
         });
@@ -96,7 +99,8 @@ public class TabDoctor extends JPanel {
                 Pair<Object[][], String[]> val = con.selectDoctor(cbEsp.getText(), topName.getText(), topSurname.getText(), topAddress.getText(), topPhone.getText());
                 dataModel.setDataVector(val.getKey(), val.getValue());
                 dataModel.fireTableDataChanged();
-                pnlReport.setChart("caldas", con.getDoctorBySpecialty("", "", "", "", ""));
+                pnlReport.setChart("Doctors by Specialty", con.getDoctorBySpecialty("", "", "", "", ""));
+                self.revalidate();
             }
         
         });
@@ -113,7 +117,8 @@ public class TabDoctor extends JPanel {
                 Pair<Object[][], String[]> val = con.selectDoctor(cbEsp.getText(), topName.getText(), topSurname.getText(), topAddress.getText(), topPhone.getText());
                 dataModel.setDataVector(val.getKey(), val.getValue());
                 dataModel.fireTableDataChanged();
-                pnlReport.setChart("caldas", con.getDoctorBySpecialty("", "", "", "", ""));
+                pnlReport.setChart("Doctors by Specialty", con.getDoctorBySpecialty("", "", "", "", ""));
+                self.revalidate();
             }
             
         });
