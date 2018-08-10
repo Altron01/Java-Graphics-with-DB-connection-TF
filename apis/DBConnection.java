@@ -17,8 +17,6 @@ public class DBConnection {
     
     Connection conn;
     Statement stmt;
-    List<String> tableNames;
-    Map<String, String[]> dbMapping;
     
     public DBConnection(){
         /*
@@ -67,30 +65,9 @@ public class DBConnection {
             stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
         ResultSet.CONCUR_READ_ONLY);
             
-            //get tableNames
-            tableNames = new ArrayList<>();
-            DatabaseMetaData md = conn.getMetaData();
-            ResultSet rs = md.getTables(null, null, null, new String[]{"TABLE"});
-            while (rs.next()) {
-                tableNames.add(rs.getString(3));
-            }
-            tableNames.remove(tableNames.size()-1);
-            
-            //get tablesColumns
-            dbMapping = new HashMap<>();
-            for(String table : tableNames){
-                rs = stmt.executeQuery("SELECT * FROM " + table);
-                ResultSetMetaData rsmd = rs.getMetaData();
-                String[] tableColumns = new String[rsmd.getColumnCount()];
-                for (int i = 1; i <= tableColumns.length; i++){
-                    tableColumns[i-1] = rsmd.getColumnName(i);
-                }
-                dbMapping.put(table, tableColumns);
-            }
             return true;
         } catch (SQLException | ClassNotFoundException ex) {
             ex.printStackTrace();
-            System.out.println(ex.toString());
             return false;
         }
     }
