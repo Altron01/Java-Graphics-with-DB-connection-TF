@@ -27,9 +27,10 @@ public class TabNurses extends JPanel {
     JTable tblModel;
     DefaultTableModel dataModel;
     ReportPanel pnlReport;
+    JPanel self;
     
     public TabNurses() {
-        
+        self = this;
         con = DBConnection.getInstance();
         
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -69,8 +70,8 @@ public class TabNurses extends JPanel {
                 dataModel.setDataVector(val.getKey(), val.getValue());
                 dataModel.fireTableDataChanged();
                 
-                pnlReport.setChart("caldas", con.getNurseByTurn(cbCodeServ.getText(), cbRot.getText(), topName.getText(), topSurname.getText(), topAddres.getText(), topPhone.getText()));
-                
+                pnlReport.setChart("Amount of Nurses per turn", con.getNurseByTurn(cbCodeServ.getText(), cbRot.getText(), topName.getText(), topSurname.getText(), topAddres.getText(), topPhone.getText()));
+                self.revalidate();
             }
         
         });
@@ -86,7 +87,8 @@ public class TabNurses extends JPanel {
                 Pair<Object[][], String[]> val = con.selectNurse(cbCodeServ.getText(), cbRot.getText(), topName.getText(), topSurname.getText(), topAddres.getText(), topPhone.getText());
                 dataModel.setDataVector(val.getKey(), val.getValue());
                 dataModel.fireTableDataChanged();
-                pnlReport.setChart("Caldas", con.getNurseByTurn("", "", "", "", "", ""));
+                pnlReport.setChart("Amount of Nurses per turn", con.getNurseByTurn("", "", "", "", "", ""));
+                self.revalidate();
                 
             }
         
@@ -105,7 +107,8 @@ public class TabNurses extends JPanel {
                 dataModel.setDataVector(val.getKey(), val.getValue());
                 dataModel.fireTableDataChanged();
                 
-                pnlReport.setChart("Caldas", con.getNurseByTurn("", "", "", "", "", ""));
+                pnlReport.setChart("Amount of Nurses per turn", con.getNurseByTurn("", "", "", "", "", ""));
+                self.revalidate();
             }
         
         });
@@ -124,7 +127,8 @@ public class TabNurses extends JPanel {
                 dataModel.setDataVector(val.getKey(), val.getValue());
                 dataModel.fireTableDataChanged();
                 
-                pnlReport.setChart("Caldas", con.getNurseByTurn("", "", "", "", "", ""));
+                pnlReport.setChart("Amount of Nurses per turn", con.getNurseByTurn("", "", "", "", "", ""));
+                self.revalidate();
                 
             }
             

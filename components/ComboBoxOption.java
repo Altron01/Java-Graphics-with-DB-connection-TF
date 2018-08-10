@@ -35,7 +35,7 @@ public class ComboBoxOption extends JPanel{
     }
     public void setData(String[] obj){
         dcm.removeAllElements();
-        if(obj.length > 0) dcm.addElement("");
+        //if(obj.length > 0) dcm.addElement("");
         for(String o : obj){
             dcm.addElement(o);
         }

@@ -21,6 +21,7 @@ public class DBConnection {
     Map<String, String[]> dbMapping;
     
     public DBConnection(){
+        /*
         try {
             //DB Init
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -52,6 +53,42 @@ public class DBConnection {
             
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
+        }*/
+    }
+    
+    public boolean setLoginData(String user, String password){
+        try {
+            if(conn != null) conn.close();
+            //DB Init
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            conn = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/hospital?autoReconnect=true&useSSL=false", user, password);
+            stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+        ResultSet.CONCUR_READ_ONLY);
+            
+            //get tableNames
+            tableNames = new ArrayList<>();
+            DatabaseMetaData md = conn.getMetaData();
+            ResultSet rs = md.getTables(null, null, null, new String[]{"TABLE"});
+            while (rs.next()) {
+                tableNames.add(rs.getString(3));
+            }
+            tableNames.remove(tableNames.size()-1);
+            
+            //get tablesColumns
+            dbMapping = new HashMap<>();
+            for(String table : tableNames){
+                rs = stmt.executeQuery("SELECT * FROM " + table);
+                ResultSetMetaData rsmd = rs.getMetaData();
+                String[] tableColumns = new String[rsmd.getColumnCount()];
+                for (int i = 1; i <= tableColumns.length; i++){
+                    tableColumns[i-1] = rsmd.getColumnName(i);
+                }
+                dbMapping.put(table, tableColumns);
+            }
+            return true;
+        } catch (SQLException | ClassNotFoundException ex) {
+            return false;
         }
     }
     
@@ -112,7 +149,7 @@ public class DBConnection {
             rs.next();
             int numero = rs.getInt("n");
             String num = Integer.toString(numero);
-            query = "INSERT INTO malade (numero, nom, prenom, adresse, tel, mutuelle) VALUES (" + num + ", \"" + name + "\", \"" + surname + "\", \"" + address + "\", \"" + phone + "\", \"1\")";
+            query = "INSERT INTO malade (numero, nom, prenom, adresse, tel, mutuelle) VALUES (" + num + ", \"" + surname + "\", \"" + name + "\", \"" + address + "\", \"" + phone + "\", \"1\")";
             System.out.println(query);
             PreparedStatement ps = conn.prepareStatement(query);
             ps.executeUpdate();
@@ -140,7 +177,7 @@ public class DBConnection {
             ResultSet rs = stmt.executeQuery(query);
             rs.next();
             String dNumber = rs.getString("numero");
-            query = "update malade set nom=\"" + name + "\", prenom=\"" + surname + "\", adresse=\"" + address + "\", tel=\"" + phone + "\", mutuelle=\"1\"" + " where numero=" + number;
+            query = "update malade set nom=\"" + surname + "\", prenom=\"" + name + "\", adresse=\"" + address + "\", tel=\"" + phone + "\", mutuelle=\"1\"" + " where numero=" + number;
             System.out.println(query);
             PreparedStatement ps = conn.prepareStatement(query);
             ps.executeUpdate();
@@ -269,7 +306,7 @@ public class DBConnection {
             System.out.println(query);
             PreparedStatement ps = conn.prepareStatement(query);
             ps.executeUpdate();
-            query = "update employe set nom=\"" + name + "\", prenom=\"" + surname + "\", adresse=\"" + address + "\", tel=\"" + phone + "\" where numero=" + number;
+            query = "update employe set nom=\"" + surname + "\", prenom=\"" + name + "\", adresse=\"" + address + "\", tel=\"" + phone + "\" where numero=" + number;
             System.out.println(query);
             ps = conn.prepareStatement(query);
             ps.executeUpdate();
@@ -415,7 +452,7 @@ public class DBConnection {
             System.out.println(query);
             PreparedStatement ps = conn.prepareStatement(query);
             ps.executeUpdate();
-            query = "update employe set nom=\"" + name + "\", prenom=\"" + surname + "\", adresse=\"" + address + "\", tel=\"" + phone + "\" where numero=" + number;
+            query = "update employe set nom=\"" + surname + "\", prenom=\"" + name + "\", adresse=\"" + address + "\", tel=\"" + phone + "\" where numero=" + number;
             System.out.println(query);
             ps = conn.prepareStatement(query);
             ps.executeUpdate();

@@ -26,4 +26,9 @@ public class LowerPanel extends JPanel {
         Quit btnQuit = new Quit();
         this.add(btnQuit);
     }
+    
+    public void setError(String error){
+        
+        txtMsg.setText(error);
+    }
 }
