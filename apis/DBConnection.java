@@ -133,16 +133,6 @@ public class DBConnection {
             System.out.println(query);
             PreparedStatement ps = conn.prepareStatement(query);
             ps.executeUpdate();
-            String serviceCode = "";
-            String doctorCode = rs.getBigDecimal("directeur").toString();
-            query = "SELECT (SELECT MAX(no_chambre) FROM chambre) + 1 as n";
-            rs = stmt.executeQuery(query);
-            rs.next();
-            String roomNumber = Integer.toString(rs.getInt("n"));
-            query = "INSERT INTO hospitalisation (no_malade, code_service, no_chambre, lit) VALUES (" + numero + ", \"" + serviceCode + "\", " + roomNumber + ", 1)";
-            System.out.println(query);
-            ps = conn.prepareStatement(query);
-            ps.executeUpdate();
             
             return true;
         } catch (SQLException ex) {
