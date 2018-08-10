@@ -25,7 +25,8 @@ public class DBConnection {
             //DB Init
             Class.forName("com.mysql.cj.jdbc.Driver");
             conn = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/hospital?autoReconnect=true&useSSL=false", "root", "Altron194");
+                    //"jdbc:mysql://localhost:3306/hospital?autoReconnect=true&useSSL=false", "root", "Altron194"):
+                    "jdbc:mysql://localhost:3306/hospital?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", "root", "ocnarf");
             stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
         ResultSet.CONCUR_READ_ONLY);
             
