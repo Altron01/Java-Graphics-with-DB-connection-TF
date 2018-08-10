@@ -89,6 +89,8 @@ public class DBConnection {
             }
             return true;
         } catch (SQLException | ClassNotFoundException ex) {
+            ex.printStackTrace();
+            System.out.println(ex.toString());
             return false;
         }
     }
