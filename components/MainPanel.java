@@ -6,6 +6,7 @@
 package components;
 
 import java.awt.BorderLayout;
+import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
@@ -16,11 +17,11 @@ import javax.swing.JTabbedPane;
 public class MainPanel extends JPanel{
     
     public MainPanel(){
-        this.setLayout(new BorderLayout());
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         
         JTabbedPane tbPanel = new JTabbedPane();
         
-        TabPanel pnlDoctors = new TabPanel();
+        TabDoctor pnlDoctors = new TabDoctor();
         tbPanel.addTab("Doctors", pnlDoctors);
         
         JPanel pnlNurses = new TabNurses();
@@ -29,10 +30,10 @@ public class MainPanel extends JPanel{
         JPanel pnlPatients = new TabPatients();
         tbPanel.addTab("Patients", pnlPatients);
         
-        this.add(tbPanel, "North");
+        this.add(tbPanel);
         
         LowerPanel pnlLowerPanel = new LowerPanel();
-        this.add(pnlLowerPanel, "South");
+        this.add(pnlLowerPanel);
     }
     
 }
